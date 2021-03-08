@@ -1,0 +1,40 @@
+---
+- name: A demo to run ansible in a docker container
+  hosts: "*"
+  tasks:
+    - name: Crear directorio /opt/web/templates
+      file:
+        path: /opt/web/templates
+        state: directory
+        owner: root
+        group: root
+        mode: 0777
+        recurse: yes
+    - name: Copy inicio.py
+      copy:
+        src: inicio.py
+        dest: /opt/web/
+        owner: root
+        group: root
+        mode: 0777
+    - name: Copy query.py
+      copy:
+        src: query.html
+        dest: /opt/web/templates
+        owner: root
+        group: root
+        mode: 0777
+    - name: Copy index.html
+      copy:
+        src: index.html
+        dest: /opt/web/templates
+        owner: root
+        group: root
+        mode: 0777
+    - name: Copy layout.html
+      copy:
+        src: layout.html
+        dest: /opt/web/templates
+        owner: root
+        group: root
+        mode: 0777

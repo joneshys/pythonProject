@@ -1,0 +1,58 @@
+{
+  "variables": {
+    "ansible_host": "default",
+    "ansible_connection": "docker",
+    "aws_access_key": "{{env `AWS_ACCESS_KEY`}}",
+    "aws_secret_key": "{{env `AWS_SECRET_KEY`}}"
+  },
+  "builders": [{
+    "type": "docker",
+    "image": "amazonlinux:latest",
+    "commit": "true",
+    "run_command": [
+      "-d","-i","-t","--name","{{user `ansible_host`}}","{{.Image}}", "/bin/bash"
+    ],
+    "changes": [
+      "ENV DB_HOST_NAME test.co4veh5yk9ly.us-east-1.rds.amazonaws.com",
+      "ENV DB_USER_NAME joneshys",
+      "ENV DB_PASSWD_USERNAME Neruda87",
+      "ENV NAME_DB test111",
+      "EXPOSE 3000 443",
+      "ENTRYPOINT [\"python3\",\"\/opt/web/inicio.py\"]"
+    ]
+  }],
+ "provisioners": [
+   {
+     "type": "shell",
+     "inline": ["yum update -y","yum install python3 -y", "pip3 install flask", "yum install mysql -y", "yum update -y","yum install gcc -y",
+       "yum install python3-devel mysql-devel -y", "pip3 install pymysql", "pip3 install mysqlclient",
+       "pip3 install flask_mysqldb"]
+   },
+   {
+     "type": "ansible",
+     "user": "root",
+     "playbook_file": "./playbook.yml",
+     "extra_arguments": [
+       "--extra-vars",
+        "ansible_host={{user `ansible_host`}} ansible_connection={{user `ansible_connection`}}"
+     ]
+   }
+  ],
+  "post-processors": [
+    [
+      {
+        "type": "docker-tag",
+        "repository": "973516012599.dkr.ecr.us-east-1.amazonaws.com/dockertest",
+        "force": true,
+        "tag": "Server_Web-{{timestamp}}"
+      },
+      {
+        "type": "docker-push",
+        "ecr_login": true,
+        "aws_access_key": "AKIA6FKQTPQ3XY7SEGFY",
+        "aws_secret_key": "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",
+        "login_server": "973516012599.dkr.ecr.us-east-1.amazonaws.com/"
+      }
+    ]
+  ]
+}

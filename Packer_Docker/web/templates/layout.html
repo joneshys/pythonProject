@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title> Test Flask App</title>
+
+<!--Import Google Icon Font-->
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	 <!-- Compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+</head>
+<body>
+
+    <div class="conteiner">
+      {% block body %}
+      {% endblock %}
+    </div>
+
+
+<!-- Compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
+    <script>
+         document.addEventListener('DOMContentLoaded', function(){
+         var elems = document.querySelectorAll('.sidenav');
+         var instances = M.Sidenav.init(elems);
+         var elems = document.querySelectorAll('.tooltipped');
+         var instances = M.Tooltip.init(elems);});
+    </script>
+
+    <script>document.addEventListener('DOMContentLoaded', function() { M.AutoInit();});</script>
+
+    <script>
+            document.addEventListener('DOMContentLoaded', function() {
+            var elems = document.querySelectorAll('.dropdown-trigger');
+            var instances = M.Dropdown.init(elems, options);});
+    </script>
+
+    <script>
+            document.addEventListener('DOMContentLoaded', function() {
+            var elems = document.querySelectorAll('select');
+            var instances = M.FormSelect.init(elems, options);});
+    </script>
+    <script>
+            document.addEventListener('DOMContentLoaded', function() {
+            var options = {
+                data:{
+                "Hola": null,
+                "Como estas": null,
+                "Google": null
+                }
+            }
+            var elems = document.querySelectorAll('.autocomplete');
+            var instances = M.Autocomplete.init(elems, options);});
+    </script>
+
+</body>
+</html>

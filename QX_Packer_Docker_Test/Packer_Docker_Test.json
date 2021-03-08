@@ -1,0 +1,18 @@
+{
+    "builders": [{
+        "type": "docker",
+        "image": "nginx:stable-perl",
+        "commit": true,
+        "name": "Test_docker",
+        "changes": ["CMD [\"nginx\", \"-g\", \"daemon off;\"]"]
+    }],
+    "provisioners":[{
+        "type": "shell",
+        "inline": ["yum update -y"]
+    }],
+    "post-processors":[{
+        "type": "docker-tag",
+        "repository": "973516012599.dkr.ecr.us-east-1.amazonaws.com/dockertest",
+        "tag": "Server_Web-{{timestamp}}"
+    }]
+}

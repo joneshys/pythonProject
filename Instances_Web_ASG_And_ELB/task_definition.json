@@ -1,0 +1,15 @@
+[
+  {
+      "name": "Tasks_Docker_Test",
+      "image": "${REPOSITORY_URL}:latest",
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 3000,
+          "hostPort": 3000
+        }
+      ],
+      "memory": 512,
+      "cpu": 256
+    }
+]

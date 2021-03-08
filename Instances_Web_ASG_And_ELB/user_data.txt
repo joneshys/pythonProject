@@ -1,0 +1,14 @@
+#!/bin/bash
+sudo yum install mysql -y
+sudo yum install jq -y
+sudo yum install python3 -y
+sudo yum update -y
+sudo yum install gcc -y
+sudo yum install python3-devel mysql-devel -y
+sudo pip3 install pymysql
+sudo pip3 install mysqlclient
+sudo pip3 install flask_mysqldb
+export DB_HOST_NAME='test.co4veh5yk9ly.us-east-1.rds.amazonaws.com'
+export DB_USER_NAME='joneshys'
+export DB_PASSWD_USERNAME='Neruda87'
+export NAME_DB='test111'
