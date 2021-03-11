@@ -4,7 +4,7 @@ import boto3
 from datetime import datetime
 import sys
 
-clientes = ['QXIMPTOSVALLETEST']
+clientes = ['QXSSDDATLANTICOTEST']
 #clientes = [sys.argv[1]]
 
 for count in range(len(clientes)):

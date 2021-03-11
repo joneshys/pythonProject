@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="accountSettings">
-    <option name="activeProfile" value="profile:QXSSDDBELLOTEST" />
+    <option name="activeProfile" value="profile:QXSSDDSABANETATEST" />
     <option name="activeRegion" value="us-east-1" />
     <option name="recentlyUsedProfiles">
       <list>
-        <option value="profile:QXSSDDBELLOTEST" />
         <option value="profile:QXSSDDSABANETATEST" />
+        <option value="profile:QXSSDDBELLOTEST" />
         <option value="profile:default" />
         <option value="profile:QXSSDDATLANTICOPROD" />
         <option value="profile:QXSSDDCALIPROD" />
