@@ -6,7 +6,7 @@ from datetime import datetime
 
 #clientes = ['QXSSDDATLANTICOTEST', 'QXSSDDATLANTICOPROD', 'QXSSDDBELLOTEST', 'QXSSDDBELLOPROD', 'QXSSDDCALITEST','QXSSDDCALIPROD', 'QXHUNITIPROD', 'QXIMPTOSVALLETEST', 'QXIMPTOSVALLEPROD', 'QXSSDDITAGUITEST','QXSSDDITAGUIPROD', 'QXSSDDPEREIRATEST', 'QXSSDDPEREIRAPROD', 'QXINTRUNTTEST', 'QXINTRUNTPROD', 'QXBIPROD','QXPROD', 'QXCOMPARENDERASSOMOSPROD', 'QXSSDDSABANETATEST', 'QXSSDDSABANETAPROD']
 #clientes = ['QXSSDDATLANTICOPROD', 'QXSSDDBELLOPROD', 'QXSSDDCALIPROD', 'QXHUNITIPROD', 'QXIMPTOSVALLEPROD', 'QXSSDDITAGUIPROD', 'QXSSDDPEREIRAPROD', 'QXINTRUNTPROD', 'QXBIPROD','QXPROD', 'QXCOMPARENDERASSOMOSPROD', 'QXSSDDSABANETAPROD']
-clientes = ['QXSSDDATLANTICOPROD']#, 'QXSSDDBELLOPROD', 'QXSSDDCALIPROD', 'QXHUNITIPROD', 'QXIMPTOSVALLEPROD', 'QXSSDDITAGUIPROD', 'QXSSDDPEREIRAPROD', 'QXINTRUNTPROD', 'QXBIPROD','QXPROD', 'QXCOMPARENDERASSOMOSPROD', 'QXSSDDSABANETAPROD']
+clientes = ['QXSSDDATLANTICOTEST']
 
 for count in range(len(clientes)):
     profile = clientes[count]
@@ -22,6 +22,6 @@ for count in range(len(clientes)):
         Hoy = datetime.now().date()
         Old_Days = Hoy - SnapshotCreateTime
         #print(profile,DBSnapshotIdentifier, SnapshotCreateTime, Old_Days.days)
-        if Old_Days.days > 20:
+        if Old_Days.days > 15:
             print(profile, DBSnapshotIdentifier, SnapshotCreateTime, Old_Days.days)
             Delete_Snapshot_GreaterThan_30_Days = RDS_Client.delete_db_snapshot(DBSnapshotIdentifier=DBSnapshotIdentifier)

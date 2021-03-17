@@ -4,11 +4,11 @@ import boto3
 from datetime import datetime
 import sys
 
-clientes = ['QXSSDDATLANTICOTEST']
+clientes = ['QXSSDDITAGUITEST']
 #clientes = [sys.argv[1]]
-IP_PUB_House = '192.168.3.25'+'/32'
+IP_PUB_House = '181.130.27.249'+'/32'
 #IP_PUB_House = sys.argv[2]+'/32'
-Mail_User = 'andrea.benitez@quipux.com'
+Mail_User = 'duban.rojas@quipux.com'
 #Mail_User = sys.argv[3]+'@quipux.com'
 
 Access_SG_Bastion = []

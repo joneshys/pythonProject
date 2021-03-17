@@ -17,7 +17,7 @@ for count in range(len(clientes)):
     ec2_cli = session.client(service_name='ec2', region_name='us-east-1')
     appstream = session.client(service_name='appstream', region_name='us-east-1')
 
-    UserAppstream = appstream.describe_users(AuthenticationType='USERPOOL')
+    UserAppstream = appstream.describe_users(AuthenticationType='USERPOOL',MaxResults=61)
     Users_AppsStream = UserAppstream['Users']
 
     f4 = open("List_Users_AppStream.csv", "a", newline='')
@@ -26,6 +26,7 @@ for count in range(len(clientes)):
     # print(Users_AppsStream)
 
     for users in Users_AppsStream:
+        print(users)
         UserName = users['UserName']
         Enabled = users['Enabled']
         Status = users['Status']
