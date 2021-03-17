@@ -11,6 +11,9 @@ ec2_cli = session.client(service_name='ec2', region_name='us-east-1')
 Secret = session.client(service_name='secretsmanager', region_name='us-east-1')
 IAMClient = session.client(service_name='iam', region_name='us-east-1')
 
+#Secret = boto3.client('secretsmanager')
+#IAMClient = boto3.client('iam')
+
 AccountAlias = IAMClient.list_account_aliases()['AccountAliases'][0].upper()
 #print(AccountAlias)
 Get_Secret_Values = []
@@ -40,7 +43,6 @@ message = MIMEMultipart()
 message['From'] = sender_address
 message['To'] = receiver_address
 message['Subject'] = 'Sending of secret values from database RDS of the account'+' '+AccountAlias
-
 
 message.attach(MIMEText(mail_content, 'plain'))
 
