@@ -1,9 +1,3 @@
-diccionario = {"username": "uqxadmin", "password": "%d}]XKlQzU&D<b~v8z$1f0:{429)vn", "engine": "oracle", "host": "proimpto.ckgnx7waruhw.us-east-1.rds.amazonaws.com", "port": 52896, "dbname": "PROIMPTO", "dbInstanceIdentifier": "proimpto"}
-#print(diccionario)
-
-#for k,v in diccionario.items():
-#    print('%s -> %s'%(k,v))
-
 import boto3
 import smtplib
 from email.mime.multipart import MIMEMultipart
@@ -16,6 +10,9 @@ cloudwatch_cli = session.client(service_name='appstream', region_name='us-east-1
 ec2_cli = session.client(service_name='ec2', region_name='us-east-1')
 Secret = session.client(service_name='secretsmanager', region_name='us-east-1')
 IAMClient = session.client(service_name='iam', region_name='us-east-1')
+
+#Secret = boto3.client('secretsmanager')
+#IAMClient = boto3.client('iam')
 
 AccountAlias = IAMClient.list_account_aliases()['AccountAliases'][0].upper()
 #print(AccountAlias)
@@ -37,16 +34,15 @@ for k,v in my_dict.items():
     print(list_1)
     List_Format_Secret_Values.append(list_1)
 
-mail_content = AccountAlias+'\n'+List_Format_Secret_Values[1]+'\n'+List_Format_Secret_Values[2]+'\n'+List_Format_Secret_Values[3]+'\n'+List_Format_Secret_Values[4]+'\n'+List_Format_Secret_Values[5]+'\n'+List_Format_Secret_Values[6]
+mail_content = AccountAlias+'\n'+List_Format_Secret_Values[0]+'\n'+List_Format_Secret_Values[1]+'\n'+List_Format_Secret_Values[2]+'\n'+List_Format_Secret_Values[3]+'\n'+List_Format_Secret_Values[4]+'\n'+List_Format_Secret_Values[5]+'\n'+List_Format_Secret_Values[6]
 sender_address = 'jose.benitez@quipux.com'
 sender_pass = 'Neruda87$'
-receiver_address = "joneshys@gmail.com,jose.benitez@quipux.com"
+receiver_address = 'jose.benitez@quipux.com,fernando.bonilla@quipux.com'
 
 message = MIMEMultipart()
 message['From'] = sender_address
 message['To'] = receiver_address
 message['Subject'] = 'Sending of secret values from database RDS of the account'+' '+AccountAlias
-
 
 message.attach(MIMEText(mail_content, 'plain'))
 
