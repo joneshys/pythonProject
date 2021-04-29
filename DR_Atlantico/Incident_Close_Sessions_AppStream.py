@@ -4,14 +4,14 @@ import boto3
 import sys
 
 #Correo_Electronico = sys.argv[1]
-Correo_Electronico = 'jassir.gonzalez@quipux.com'
+Correo_Electronico = 'dbenitez@transitodelatlantico.gov.co'
 
 session = boto3.session.Session(profile_name='QXSSDDATLANTICOPROD')
 ec2_re = session.resource(service_name='ec2', region_name='us-east-1')
 cloudwatch_cli = session.client(service_name='appstream', region_name='us-east-1')
 ec2_cli = session.client(service_name='ec2', region_name='us-east-1')
 
-appstream_client = boto3.client('appstream')
+appstream_client = session.client(service_name='appstream', region_name='us-east-1')
 
 responses = appstream_client.describe_sessions(StackName='Stack-QX-NO-CROND', FleetName='Fleet-QX-NO-CROND')
 

@@ -1,14 +1,13 @@
 import boto3
 import csv
 from datetime import datetime
-clientes = ['QXSSDDATLANTICOPROD', 'QXSSDDBELLOPROD', 'QXSSDDCALIPROD', 'QXHUNITIPROD', 'QXIMPTOSVALLEPROD', 'QXSSDDITAGUIPROD', 'QXSSDDPEREIRAPROD', 'QXINTRUNTPROD', 'QXBIPROD','QXPROD', 'QXCOMPARENDERASSOMOSPROD', 'QXSSDDSABANETAPROD']
-#clientes = ['QXPROD']
+#clientes = ['QXSSDDATLANTICOPROD', 'QXSSDDBELLOPROD', 'QXSSDDCALIPROD', 'QXHUNITIPROD', 'QXIMPTOSVALLEPROD', 'QXSSDDITAGUIPROD', 'QXSSDDPEREIRAPROD', 'QXINTRUNTPROD', 'QXBIPROD','QXPROD', 'QXCOMPARENDERASSOMOSPROD', 'QXSSDDSABANETAPROD']
+clientes = ['QXIMPTOSVALLEPROD']
 Ahora = datetime.now().date()
 
 f4 = open("List_Alarm.csv", "a",newline='')
 cvs_w = csv.writer(f4)
 f4.close()
-
 
 for count in range(len(clientes)):
     profile = clientes[count]

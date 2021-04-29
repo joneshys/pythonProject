@@ -3,7 +3,7 @@ import collections
 import time
 import datetime
 
-clientes = ['QXHUNITIPROD']
+clientes = ['QXCOMPARENDERASSOMOSPROD']
 
 for count in range(len(clientes)):
     profile = clientes[count]

@@ -9,7 +9,7 @@ ec2_re = session.resource(service_name='ec2', region_name='us-east-1')
 cloudwatch_cli = session.client(service_name='appstream', region_name='us-east-1')
 ec2_cli = session.client(service_name='ec2', region_name='us-east-1')
 
-Correo_Electronico='lmercado@transitodelatlantico.gov.co'
+Correo_Electronico='charlie.voborny@gmail.com'
 
 appstream_client = session.client(service_name='appstream', region_name='us-east-1')
 
