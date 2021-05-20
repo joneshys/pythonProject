@@ -7,9 +7,9 @@ import time
 #Primer_Nombre = sys.argv[2]
 #Primer_Apellido = sys.argv[3]
 
-Correo_Electronico = 'cvoborny-ita@transitodelatlantico.gov.co'
-Primer_Nombre = 'Carmen'
-Primer_Apellido = 'Borny'
+Correo_Electronico = 'kcarvajal-ita@atlantico.gov.co'
+Primer_Nombre = 'Karina'
+Primer_Apellido = 'Carvajal'
 
 session = boto3.session.Session(profile_name='QXSSDDATLANTICOPROD')
 ec2_re = session.resource(service_name='ec2', region_name='us-east-1')

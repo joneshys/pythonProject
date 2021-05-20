@@ -5,9 +5,9 @@ import datetime
 from datetime import datetime
 
 #clientes = ['QXSSDDATLANTICOTEST', 'QXSSDDBELLOTEST', 'QXSSDDCALITEST', 'QXIMPTOSVALLETEST', 'QXSSDDITAGUITEST', 'QXSSDDPEREIRATEST', 'QXINTRUNTTEST', 'QXSSDDSABANETATEST']
-#clientes = ['QXSSDDATLANTICOPROD', 'QXSSDDBELLOPROD', 'QXSSDDCALIPROD', 'QXIMPTOSVALLEPROD', 'QXSSDDITAGUIPROD', 'QXSSDDPEREIRAPROD', 'QXINTRUNTPROD', 'QXBIPROD','QXPROD', 'QXCOMPARENDERASSOMOSPROD', 'QXSSDDSABANETAPROD']
+clientes = ['QXHUNITIPROD','QXSSDDATLANTICOPROD', 'QXSSDDBELLOPROD', 'QXSSDDCALIPROD', 'QXIMPTOSVALLEPROD', 'QXSSDDITAGUIPROD', 'QXSSDDPEREIRAPROD', 'QXINTRUNTPROD', 'QXBIPROD','QXPROD', 'QXCOMPARENDERASSOMOSPROD', 'QXSSDDSABANETAPROD']
 #'QXHUNITIPROD',
-clientes = ['QXSSDDATLANTICOTEST']
+#clientes = ['QXHUNITIPROD']
 for count in range(len(clientes)):
     profile = clientes[count]
     session = boto3.session.Session(profile_name=profile)
@@ -31,7 +31,7 @@ for count in range(len(clientes)):
                 Resta = Noe - Create_Date
                 ami_id = ami['ImageId']
                 # print(Resta.days, ami_id, profile)
-                if Resta.days > 30:
+                if Resta.days > 15:
                     Delete_AMI_EC2 = ec2_cli.deregister_image(ImageId=ami_id)['ResponseMetadata']['HTTPStatusCode']
                     if Delete_AMI_EC2 == 200:
                         print(
@@ -45,7 +45,7 @@ for count in range(len(clientes)):
         Ahora = datetime.now().date()
         Resta_Dias = Ahora - StartTime
         # print(Resta_Dias.days)
-        if Resta_Dias.days > 30:
+        if Resta_Dias.days > 15:
             Delete_Snapshot_EC2 = ec2_cli.delete_snapshot(SnapshotId=SnapshotId)['ResponseMetadata']['HTTPStatusCode']
             if Delete_Snapshot_EC2 == 200:
                 print('El siguiente Id de Snapshot EC2 fue eliminado correctamente: ' + SnapshotId + ', del cliente: ' + profile)

@@ -1,0 +1,796 @@
+AWSTemplateFormatVersion: 2010-09-09
+Description: >-
+  Copyright ? 2019 Quipux. All Rights Reserved - Template used for the creation
+  of autoscaling group from template configuration on spot lifecycle
+Metadata:
+  'AWS::CloudFormation::Interface':
+    ParameterGroups:
+      - Label:
+          default: General Configuration
+        Parameters:
+          - GlobalClient
+          - Project
+          - GlobalEnviromentType
+          - Owner
+          - AdminMail
+      - Label:
+          default: Instance Configurations
+        Parameters:
+          - MinCapacity
+          - MaxCapacity
+          - AMIID
+          - KeyName
+          - InstanceType
+      - Label:
+          default: Elastic File System Configuration
+        Parameters:
+          - EFSFileSystem
+          - MountPoint
+    ParameterLabels:
+      GlobalClient:
+        default: Client
+      Project:
+        default: Project
+      GlobalEnviromentType:
+        default: Enviroment Type
+      Owner:
+        default: Owner
+      AdminMail:
+        default: Administrator AWS Email
+      MinCapacity:
+        default: Min Capacity AutoScaling Group Instance
+      MaxCapacity:
+        default: Max Capacity AutoScaling Group Instance
+      Prefix:
+        default: Prefix
+      EFSFileSystem:
+        default: EFS File System Point
+      MountPoint:
+        default: EFS Mount Point
+Parameters:
+  GlobalClient:
+    Type: String
+  AdminMail:
+    Type: String
+    Default: juan.villa@quipux.com
+    AllowedPattern: >-
+      ([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)
+    ConstraintDescription: Must Be a Valid Email Address
+  GlobalEnviromentType:
+    Type: String
+    AllowedValues:
+      - Productive Workloads
+      - Test Workloads
+      - Development Workloads
+  Project:
+    Type: String
+  Owner:
+    Type: String
+    Default: Quipux
+  MaxCapacity:
+    Type: String
+    Default: 1
+  MinCapacity:
+    Type: String
+    Default: 1
+  Prefix:
+    Type: String
+  InstanceType:
+    Type: String
+    Default: t3.medium
+    AllowedValues:
+      - a1.2xlarge
+      - a1.4xlarge
+      - a1.large
+      - a1.medium
+      - a1.xlarge
+      - c1.medium
+      - c1.xlarge
+      - c3.2xlarge
+      - c3.4xlarge
+      - c3.8xlarge
+      - c3.large
+      - c3.xlarge
+      - c4.2xlarge
+      - c4.4xlarge
+      - c4.8xlarge
+      - c4.large
+      - c4.xlarge
+      - c5.12xlarge
+      - c5.18xlarge
+      - c5.24xlarge
+      - c5.2xlarge
+      - c5.4xlarge
+      - c5.9xlarge
+      - c5.large
+      - c5.xlarge
+      - c5d.18xlarge
+      - c5d.2xlarge
+      - c5d.4xlarge
+      - c5d.9xlarge
+      - c5d.large
+      - c5d.xlarge
+      - c5n.18xlarge
+      - c5n.2xlarge
+      - c5n.4xlarge
+      - c5n.9xlarge
+      - c5n.large
+      - c5n.xlarge
+      - cc1.4xlarge
+      - cc2.8xlarge
+      - cg1.4xlarge
+      - cr1.8xlarge
+      - d2.2xlarge
+      - d2.4xlarge
+      - d2.8xlarge
+      - d2.xlarge
+      - f1.16xlarge
+      - f1.2xlarge
+      - f1.4xlarge
+      - g2.2xlarge
+      - g2.8xlarge
+      - g3.16xlarge
+      - g3.4xlarge
+      - g3.8xlarge
+      - g3s.xlarge
+      - h1.16xlarge
+      - h1.2xlarge
+      - h1.4xlarge
+      - h1.8xlarge
+      - hi1.4xlarge
+      - hs1.8xlarge
+      - i2.2xlarge
+      - i2.4xlarge
+      - i2.8xlarge
+      - i2.xlarge
+      - i3.16xlarge
+      - i3.2xlarge
+      - i3.4xlarge
+      - i3.8xlarge
+      - i3.large
+      - i3.metal
+      - i3.xlarge
+      - i3en.12xlarge
+      - i3en.24xlarge
+      - i3en.2xlarge
+      - i3en.3xlarge
+      - i3en.6xlarge
+      - i3en.large
+      - i3en.xlarge
+      - m1.large
+      - m1.medium
+      - m1.small
+      - m1.xlarge
+      - m2.2xlarge
+      - m2.4xlarge
+      - m2.xlarge
+      - m3.2xlarge
+      - m3.large
+      - m3.medium
+      - m3.xlarge
+      - m4.10xlarge
+      - m4.16xlarge
+      - m4.2xlarge
+      - m4.4xlarge
+      - m4.large
+      - m4.xlarge
+      - m5.12xlarge
+      - m5.24xlarge
+      - m5.2xlarge
+      - m5.4xlarge
+      - m5.large
+      - m5.metal
+      - m5.xlarge
+      - m5a.12xlarge
+      - m5a.24xlarge
+      - m5a.2xlarge
+      - m5a.4xlarge
+      - m5a.large
+      - m5a.xlarge
+      - m5ad.12xlarge
+      - m5ad.16xlarge
+      - m5ad.24xlarge
+      - m5ad.2xlarge
+      - m5ad.4xlarge
+      - m5ad.8xlarge
+      - m5ad.large
+      - m5ad.xlarge
+      - m5d.12xlarge
+      - m5d.24xlarge
+      - m5d.2xlarge
+      - m5d.4xlarge
+      - m5d.large
+      - m5d.metal
+      - m5d.xlarge
+      - p2.16xlarge
+      - p2.8xlarge
+      - p2.xlarge
+      - p3.16xlarge
+      - p3.2xlarge
+      - p3.8xlarge
+      - p3dn.24xlarge
+      - r3.2xlarge
+      - r3.4xlarge
+      - r3.8xlarge
+      - r3.large
+      - r3.xlarge
+      - r4.16xlarge
+      - r4.2xlarge
+      - r4.4xlarge
+      - r4.8xlarge
+      - r4.large
+      - r4.xlarge
+      - r5.12xlarge
+      - r5.24xlarge
+      - r5.2xlarge
+      - r5.4xlarge
+      - r5.large
+      - r5.metal
+      - r5.xlarge
+      - r5a.12xlarge
+      - r5a.24xlarge
+      - r5a.2xlarge
+      - r5a.4xlarge
+      - r5a.large
+      - r5a.xlarge
+      - r5ad.12xlarge
+      - r5ad.16xlarge
+      - r5ad.24xlarge
+      - r5ad.2xlarge
+      - r5ad.4xlarge
+      - r5ad.8xlarge
+      - r5ad.large
+      - r5ad.xlarge
+      - r5d.12xlarge
+      - r5d.24xlarge
+      - r5d.2xlarge
+      - r5d.4xlarge
+      - r5d.large
+      - r5d.metal
+      - r5d.xlarge
+      - t1.micro
+      - t2.2xlarge
+      - t2.large
+      - t2.medium
+      - t2.micro
+      - t2.nano
+      - t2.small
+      - t2.xlarge
+      - t3.2xlarge
+      - t3.large
+      - t3.medium
+      - t3.micro
+      - t3.nano
+      - t3.small
+      - t3.xlarge
+      - t3a.2xlarge
+      - t3a.large
+      - t3a.medium
+      - t3a.micro
+      - t3a.nano
+      - t3a.small
+      - t3a.xlarge
+      - u-12tb1.metal
+      - u-6tb1.metal
+      - u-9tb1.metal
+      - x1.16xlarge
+      - x1.32xlarge
+      - x1e.16xlarge
+      - x1e.2xlarge
+      - x1e.32xlarge
+      - x1e.4xlarge
+      - x1e.8xlarge
+      - x1e.xlarge
+      - z1d.12xlarge
+      - z1d.2xlarge
+      - z1d.3xlarge
+      - z1d.6xlarge
+      - z1d.large
+      - z1d.metal
+      - z1d.xlarge
+    ConstraintDescription: Must Be a Valid EC2 Instance Type
+  KeyName:
+    Type: 'AWS::EC2::KeyPair::KeyName'
+  AMIID:
+    Type: String
+  EFSFileSystem:
+    Type: String
+  MountPoint:
+    Type: String
+Conditions:
+  ProductionEnviroment: !Equals
+    - !Ref GlobalEnviromentType
+    - Productive Workloads
+  TestingEnviroment: !Equals
+    - !Ref GlobalEnviromentType
+    - Test Workloads
+  DevelopmentEnviroment: !Equals
+    - !Ref GlobalEnviromentType
+    - Development Workloads
+Resources:
+  SecurityGroup:
+    Type: 'AWS::EC2::SecurityGroup'
+    Properties:
+      GroupDescription: Enable SSH Access From Bastion
+      VpcId: !ImportValue Network-VPCID
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 10.170.43.0/24
+        - IpProtocol: tcp
+          FromPort: 7070
+          ToPort: 7070
+          CidrIp: 10.170.43.0/24
+        - IpProtocol: tcp
+          FromPort: 7075
+          ToPort: 7075
+          CidrIp: 10.170.43.0/24
+        - IpProtocol: tcp
+          FromPort: 8000
+          ToPort: 8000
+          CidrIp: 10.170.43.0/24
+        - IpProtocol: tcp
+          FromPort: 8080
+          ToPort: 8080
+          CidrIp: 10.170.43.0/24
+        - IpProtocol: tcp
+          FromPort: 8085
+          ToPort: 8085
+          CidrIp: 10.170.43.0/24
+        - IpProtocol: tcp
+          FromPort: 9090
+          ToPort: 9090
+          CidrIp: 10.170.43.0/24
+        - IpProtocol: tcp
+          FromPort: 9095
+          ToPort: 9095
+          CidrIp: 10.170.43.0/24
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 10.170.13.0/25
+        - IpProtocol: tcp
+          FromPort: 5000
+          ToPort: 5000
+          CidrIp: 10.170.13.0/25
+        - IpProtocol: tcp
+          FromPort: 7070
+          ToPort: 7070
+          CidrIp: 10.170.13.0/25
+        - IpProtocol: tcp
+          FromPort: 7075
+          ToPort: 7075
+          CidrIp: 10.170.13.0/25
+        - IpProtocol: tcp
+          FromPort: 8000
+          ToPort: 8000
+          CidrIp: 10.170.13.0/25
+        - IpProtocol: tcp
+          FromPort: 8080
+          ToPort: 8080
+          CidrIp: 10.170.13.0/25
+        - IpProtocol: tcp
+          FromPort: 8085
+          ToPort: 8085
+          CidrIp: 10.170.13.0/25
+        - IpProtocol: tcp
+          FromPort: 9090
+          ToPort: 9090
+          CidrIp: 10.170.13.0/25
+        - IpProtocol: tcp
+          FromPort: 9095
+          ToPort: 9095
+          CidrIp: 10.170.13.0/25
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 10.170.14.0/28
+        - IpProtocol: tcp
+          FromPort: 5000
+          ToPort: 5000
+          CidrIp: 10.170.14.0/28
+        - IpProtocol: tcp
+          FromPort: 7070
+          ToPort: 7070
+          CidrIp: 10.170.14.0/28
+        - IpProtocol: tcp
+          FromPort: 7075
+          ToPort: 7075
+          CidrIp: 10.170.14.0/28
+        - IpProtocol: tcp
+          FromPort: 8000
+          ToPort: 8000
+          CidrIp: 10.170.14.0/28
+        - IpProtocol: tcp
+          FromPort: 8080
+          ToPort: 8080
+          CidrIp: 10.170.14.0/28
+        - IpProtocol: tcp
+          FromPort: 8085
+          ToPort: 8085
+          CidrIp: 10.170.14.0/28
+        - IpProtocol: tcp
+          FromPort: 9090
+          ToPort: 9090
+          CidrIp: 10.170.14.0/28
+        - IpProtocol: tcp
+          FromPort: 9095
+          ToPort: 9095
+          CidrIp: 10.170.14.0/28
+        - IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 10.170.12.0/24
+        - IpProtocol: tcp
+          FromPort: 5000
+          ToPort: 5000
+          CidrIp: 10.170.12.0/24
+        - IpProtocol: tcp
+          FromPort: 7070
+          ToPort: 7070
+          CidrIp: 10.170.12.0/24
+        - IpProtocol: tcp
+          FromPort: 7075
+          ToPort: 7075
+          CidrIp: 10.170.12.0/24
+        - IpProtocol: tcp
+          FromPort: 8000
+          ToPort: 8000
+          CidrIp: 10.170.12.0/24
+        - IpProtocol: tcp
+          FromPort: 8080
+          ToPort: 8080
+          CidrIp: 10.170.12.0/24
+        - IpProtocol: tcp
+          FromPort: 8085
+          ToPort: 8085
+          CidrIp: 10.170.12.0/24
+        - IpProtocol: tcp
+          FromPort: 9090
+          ToPort: 9090
+          CidrIp: 10.170.12.0/24
+        - IpProtocol: tcp
+          FromPort: 9095
+          ToPort: 9095
+          CidrIp: 10.170.12.0/24
+        - IpProtocol: tcp
+          FromPort: 443
+          ToPort: 443
+          SourceSecurityGroupId: !ImportValue ElasticLoadBalancer-SecurityGroup
+  LaunchConfiguration:
+    Type: 'AWS::AutoScaling::LaunchConfiguration'
+    Metadata:
+      'AWS::CloudFormation::Init':
+        configSets:
+          default:
+            - 01_setupCfnHup
+            - 02_config-amazon-cloudwatch-agent
+            - 03_restart-amazon-cloudwatch-agent
+            - 04_config-efs-mount
+            - 05_update-server
+          UpdateEnvironment:
+            - 02_config-amazon-cloudwatch-agent
+            - 03_restart-amazon-cloudwatch-agent
+        01_setupCfnHup:
+          files:
+            /etc/cfn/cfn-hup.conf:
+              content: !Sub |
+                [main]
+                stack=${AWS::StackId}
+                region=${AWS::Region}
+                interval=1
+              mode: '000400'
+              owner: root
+              group: root
+            /etc/cfn/hooks.d/amazon-cloudwatch-agent-auto-reloader.conf:
+              content: !Sub >
+                [cfn-auto-reloader-hook]
+
+                triggers=post.update
+
+                path=Resources.LaunchConfiguration.Metadata.AWS::CloudFormation::Init.02_config-amazon-cloudwatch-agent
+
+                action=/opt/aws/bin/cfn-init -v --stack ${AWS::StackName}
+                --resource LaunchTemplate --configsets default --region
+                ${AWS::Region}
+
+                runas=root
+              mode: '000400'
+              owner: root
+              group: root
+            /lib/systemd/system/cfn-hup.service:
+              content: |
+                [Unit]
+                Description=cfn-hup daemon
+                [Service]
+                Type=simple
+                ExecStart=/opt/aws/bin/cfn-hup
+                Restart=always
+                [Install]
+                WantedBy=multi-user.target
+          commands:
+            01_enable-cfn-hup:
+              command: |
+                systemctl enable cfn-hup.service
+            02_start-cfn-hup:
+              command: |
+                systemctl start cfn-hup.service
+        02_config-amazon-cloudwatch-agent:
+          files:
+            /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json:
+              content: !Sub "{\n    \"agent\": {\n        \"metrics_collection_interval\": 60,\n        \"run_as_user\": \"cwagent\"\n    },\n    \"metrics\": {\n        \"append_dimensions\": {\n            \"AutoScalingGroupName\": \"${!aws:AutoScalingGroupName}\",\n            \"ImageId\": \"${!aws:ImageId}\",\n            \"InstanceId\": \"${!aws:InstanceId}\",\n            \"InstanceType\": \"${!aws:InstanceType}\"\n        },\n\t\t\"aggregation_dimensions\" : [[\"AutoScalingGroupName\"]],\n        \"metrics_collected\": {\n            \"collectd\": {\n                \"metrics_aggregation_interval\": 60\n            },\n            \"cpu\": {\n                \"measurement\": [\n                    \"cpu_usage_idle\",\n                    \"cpu_usage_iowait\",\n                    \"cpu_usage_user\",\n                    \"cpu_usage_system\"\n                ],\n                \"metrics_collection_interval\": 60,\n                \"resources\": [\n                    \"*\"\n                ],\n                \"totalcpu\": false\n            },\n            \"disk\": {\n                \"measurement\": [\n                    \"used_percent\",\n                    \"inodes_free\"\n                ],\n                \"metrics_collection_interval\": 60,\n                \"resources\": [\n                    \"*\"\n                ]\n            },\n            \"diskio\": {\n                \"measurement\": [\n                    \"io_time\",\n                    \"write_bytes\",\n                    \"read_bytes\",\n                    \"writes\",\n                    \"reads\"\n                ],\n                \"metrics_collection_interval\": 60,\n                \"resources\": [\n                    \"*\"\n                ]\n            },\n            \"mem\": {\n                \"measurement\": [\n                    \"mem_used_percent\"\n                ],\n                \"metrics_collection_interval\": 60\n            },\n            \"netstat\": {\n                \"measurement\": [\n                    \"tcp_established\",\n                    \"tcp_time_wait\"\n                ],\n                \"metrics_collection_interval\": 60\n            },\n            \"statsd\": {\n                \"metrics_aggregation_interval\": 60,\n                \"metrics_collection_interval\": 10,\n                \"service_address\": \":8125\"\n            },\n            \"swap\": {\n                \"measurement\": [\n                    \"swap_used_percent\"\n                ],\n                \"metrics_collection_interval\": 60\n            }\n        }\n    }\n}\n"
+        03_restart-amazon-cloudwatch-agent:
+          commands:
+            01_stop-service:
+              command: >-
+                /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl
+                -a stop
+            02_start-service:
+              command: >-
+                /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl
+                -a fetch-config -m ec2 -c
+                file:/opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json
+                -s
+        04_config-efs-mount:
+          commands:
+            01_create-directory:
+              command: !Sub 'mkdir -p ${MountPoint}'
+            02_mount-efs:
+              command: !Sub >
+                sudo mount -t nfs4 -o nfsvers=4.1
+                ${EFSFileSystem}.efs.${AWS::Region}.amazonaws.com:/
+                ${MountPoint}
+            03_add-mount-fstab:
+              command: !Sub >
+                echo ${EFSFileSystem}.efs.${AWS::Region}.amazonaws.com:/
+                ${MountPoint} nfs4
+                nfsvers=4.1,rsize=1048576,wsize=1048576,hard,timeo=600,retrans=2,_netdev
+                0 0 >> /etc/fstab
+            04_change-owner-data-path:
+              command: !Sub 'chown usrapp:usrapp ${MountPoint}'
+            05_change-permissions-data-path:
+              command: !Sub 'chmod -R 755 ${MountPoint}'
+        05_update-server:
+          01_update-server:
+            command: !Sub yum update -y --security
+    Properties:
+      BlockDeviceMappings:
+        - DeviceName: /dev/xvda
+          Ebs:
+            DeleteOnTermination: !If
+              - ProductionEnviroment
+              - false
+              - true
+            VolumeSize: '250'
+            Encrypted: 'true'
+      EbsOptimized: false
+      ImageId: !Ref AMIID
+      InstanceType: !Ref InstanceType
+      KeyName: !Ref KeyName
+      SecurityGroups:
+        - Ref: SecurityGroup
+      IamInstanceProfile: !ImportValue Security-EC2InstanceProfile
+      UserData:
+        'Fn::Base64': !Sub >
+          #!/bin/bash
+
+          yum install -y aws-cfn-bootstrap
+
+          setenforce 0
+
+          yum install -y
+          http://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+
+          yum install -y python-pip
+
+          cd /usr/bin
+
+          pip install pystache
+
+          pip install argparse
+
+          pip install python-daemon
+
+          pip install requests
+
+          cd /opt
+
+          curl -O
+          https://s3.amazonaws.com/cloudformation-examples/aws-cfn-bootstrap-latest.tar.gz
+
+          tar -xvpf aws-cfn-bootstrap-latest.tar.gz
+
+          cd aws-cfn-bootstrap-1.4/
+
+          python setup.py build
+
+          python setup.py install
+
+          ln -s /usr/init/redhat/cfn-hup /etc/init.d/cfn-hup
+
+          chmod 775 /usr/init/redhat/cfn-hup
+
+          cd /opt
+
+          mkdir aws
+
+          cd aws
+
+          mkdir bin
+
+          ln -s /usr/bin/cfn-hup /opt/aws/bin/cfn-hup
+
+          ln -s /usr/bin/cfn-init /opt/aws/bin/cfn-init
+
+          ln -s /usr/bin/cfn-signal /opt/aws/bin/cfn-signal
+
+          ln -s /usr/bin/cfn-elect-cmd-leader /opt/aws/bin/cfn-elect-cmd-leader
+
+          ln -s /usr/bin/cfn-get-metadata /opt/aws/bin/cfn-get-metadata
+
+          ln -s /usr/bin/cfn-send-cmd-event /opt/aws/bin/cfn-send-cmd-event
+
+          ln -s /usr/bin/cfn-send-cmd-result /opt/aws/bin/cfn-send-cmd-result
+
+          rm -rf /opt/aws-cfn-bootstrap*
+
+          yum install -y collectd
+
+          systemctl start collectd
+
+          systemctl enable collectd
+
+          rpm -Uvh
+          https://s3.amazonaws.com/amazoncloudwatch-agent/amazon_linux/amd64/latest/amazon-cloudwatch-agent.rpm
+
+          /opt/aws/bin/cfn-init -v --stack ${AWS::StackName} --resource
+          LaunchConfiguration --configsets default --region ${AWS::Region}
+
+          /opt/aws/bin/cfn-signal -e $? --stack ${AWS::StackName} --resource
+          LaunchConfiguration --region ${AWS::Region}
+  AutoScalingGroup:
+    Type: 'AWS::AutoScaling::AutoScalingGroup'
+    Properties:
+      Cooldown: 30
+      HealthCheckGracePeriod: 30
+      HealthCheckType: EC2
+      MaxSize: !Ref MaxCapacity
+      MinSize: !Ref MinCapacity
+      TargetGroupARNs:
+        - !ImportValue ElasticLoadBalancer-ElasticLoadBalancerTargetGroupBackOffice
+      NotificationConfiguration:
+        TopicARN: !ImportValue Security-TopicArn
+        NotificationTypes:
+          - 'autoscaling:EC2_INSTANCE_LAUNCH'
+          - 'autoscaling:EC2_INSTANCE_LAUNCH_ERROR'
+          - 'autoscaling:EC2_INSTANCE_TERMINATE'
+          - 'autoscaling:EC2_INSTANCE_TERMINATE_ERROR'
+      LaunchConfigurationName: !Ref LaunchConfiguration
+      NotificationConfigurations:
+        - TopicARN: !ImportValue Security-TopicArn
+          NotificationTypes:
+            - 'autoscaling:EC2_INSTANCE_LAUNCH'
+            - 'autoscaling:EC2_INSTANCE_LAUNCH_ERROR'
+            - 'autoscaling:EC2_INSTANCE_TERMINATE'
+            - 'autoscaling:EC2_INSTANCE_TERMINATE_ERROR'
+      Tags:
+        - Key: Name
+          Value: !Join
+            - ''
+            - - !Ref Prefix
+              - !Ref GlobalClient
+              - !If
+                - ProductionEnviroment
+                - PROD
+                - !If
+                  - TestingEnviroment
+                  - TEST
+                  - !If
+                    - DevelopmentEnviroment
+                    - DEV
+                    - ''
+          PropagateAtLaunch: true
+        - Key: EnviromentType
+          Value: !Ref GlobalEnviromentType
+          PropagateAtLaunch: true
+        - Key: Implementor
+          Value: !Ref AdminMail
+          PropagateAtLaunch: true
+        - Key: Owner
+          Value: !Ref Owner
+          PropagateAtLaunch: true
+        - Key: Client
+          Value: !Ref GlobalClient
+          PropagateAtLaunch: true
+        - Key: Project
+          Value: !Ref Project
+          PropagateAtLaunch: true
+      TerminationPolicies:
+        - OldestInstance
+        - OldestLaunchTemplate
+        - AllocationStrategy
+      VPCZoneIdentifier:
+        - !ImportValue Network-VPCPrivateSubnetA
+        - !ImportValue Network-VPCPrivateSubnetB
+  InstanceScaleUpPolicyServer:
+    Type: 'AWS::AutoScaling::ScalingPolicy'
+    Properties:
+      AdjustmentType: ChangeInCapacity
+      AutoScalingGroupName: !Ref AutoScalingGroup
+      Cooldown: '30'
+      ScalingAdjustment: '1'
+  InstanceScaleDownPolicyServer:
+    Type: 'AWS::AutoScaling::ScalingPolicy'
+    Properties:
+      AdjustmentType: ChangeInCapacity
+      AutoScalingGroupName: !Ref AutoScalingGroup
+      Cooldown: '30'
+      ScalingAdjustment: '-1'
+  CPUAlarmHighServer:
+    Type: 'AWS::CloudWatch::Alarm'
+    Properties:
+      AlarmDescription: Scale-up if CPU > 70% for 1 Minute
+      MetricName: CPUUtilization
+      Namespace: AWS/EC2
+      Statistic: Average
+      Period: 60
+      EvaluationPeriods: 1
+      Threshold: 70
+      AlarmActions:
+        - !Ref InstanceScaleUpPolicyServer
+      Dimensions:
+        - Name: AutoScalingGroupName
+          Value: !Ref AutoScalingGroup
+      ComparisonOperator: GreaterThanThreshold
+  CPUAlarmLowServer:
+    Type: 'AWS::CloudWatch::Alarm'
+    Properties:
+      AlarmDescription: Scale-down if CPU < 30% for 1 Minute
+      MetricName: CPUUtilization
+      Namespace: AWS/EC2
+      Statistic: Average
+      Period: 60
+      EvaluationPeriods: 1
+      Threshold: 30
+      Dimensions:
+        - Name: AutoScalingGroupName
+          Value: !Ref AutoScalingGroup
+      ComparisonOperator: LessThanThreshold
+  MemoryAlarmHigh:
+    Type: 'AWS::CloudWatch::Alarm'
+    Properties:
+      EvaluationPeriods: 1
+      Statistic: Average
+      Threshold: 70
+      AlarmDescription: Go in Alarm is memory is higher than 70% for 60 seconds
+      Period: 60
+      AlarmActions:
+        - Ref: InstanceScaleUpPolicyServer
+      Namespace: CWAgent
+      Dimensions:
+        - Name: AutoScalingGroupName
+          Value: !Ref AutoScalingGroup
+      ComparisonOperator: GreaterThanThreshold
+      MetricName: mem_used_percent
+  MemoryAlarmLow:
+    Type: 'AWS::CloudWatch::Alarm'
+    Properties:
+      EvaluationPeriods: 1
+      Statistic: Average
+      Threshold: 30
+      AlarmDescription: Go in Alarm is memory is lower than 30% for 60 seconds
+      Period: 60
+      AlarmActions:
+        - Ref: InstanceScaleDownPolicyServer
+      Namespace: CWAgent
+      Dimensions:
+        - Name: AutoScalingGroupName
+          Value: !Ref AutoScalingGroup
+      ComparisonOperator: LessThanOrEqualToThreshold
+      MetricName: mem_used_percent
+Outputs:
+  SecurityGroup:
+    Value: !Ref SecurityGroup
+    Export:
+      Name: !Sub '${AWS::StackName}-SecurityGroup'

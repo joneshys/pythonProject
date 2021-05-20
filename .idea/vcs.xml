@@ -2,6 +2,9 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="$PROJECT_DIR$" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Data_Scientist/Data_Science" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Data_Scientist/Data_Scientist" vcs="Git" />
+    <mapping directory="$PROJECT_DIR$/Data_Scientist/machinelearning-az" vcs="Git" />
     <mapping directory="$PROJECT_DIR$/Instances_Web_ASG_And_ELB" vcs="" />
     <mapping directory="$PROJECT_DIR$/Packer_Docker" vcs="" />
     <mapping directory="$PROJECT_DIR$/Project_Docker/NodeJS/testdocker/test_edwin" vcs="Git" />

@@ -1,7 +1,7 @@
 resource "aws_security_group" "SSH_Anyware" {
   name = "${var.project_name}_SSH_Anyware"
   description = "SSH_Anyware inbound to SSH"
-  vpc_id = "${aws_default_vpc.VPC_Test.id}"
+  vpc_id = aws_default_vpc.VPC_Test.id
   ingress {
     from_port = 22
     protocol = "tcp"
@@ -19,7 +19,7 @@ resource "aws_security_group" "SSH_Anyware" {
 resource "aws_security_group" "HTTP_Anyware" {
   name = "${var.project_name}_HTTP_Anyware"
   description = "HTTP for Anyware "
-  vpc_id = "${aws_default_vpc.VPC_Test.id}"
+  vpc_id = aws_default_vpc.VPC_Test.id
   ingress {
     from_port = 80
     protocol = "tcp"

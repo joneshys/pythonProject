@@ -4,9 +4,9 @@ import boto3
 from datetime import datetime
 import sys
 
-user='sorrelly.jaramillo'
-IP_Pub = '177.254.207.108'
-clientes = ['QXSSDDITAGUITEST']
+user='jose.benitez'
+IP_Pub = '201.233.219.25'
+clientes = ['QXSSDDBRASILTEST']
 
 #clientes = [sys.argv[1]]
 IP_PUB_House = IP_Pub+'/32'
