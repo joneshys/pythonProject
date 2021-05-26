@@ -4,9 +4,11 @@ import boto3
 from datetime import datetime
 import sys
 
-user='jose.benitez'
-IP_Pub = '201.233.219.25'
+user='leonor.garcia'
+IP_Pub = '181.235.8.146'
 clientes = ['QXSSDDBRASILTEST']
+region_name = 'sa-east-1'
+#region_name = 'us-east-1'
 
 #clientes = [sys.argv[1]]
 IP_PUB_House = IP_Pub+'/32'
@@ -18,8 +20,8 @@ Access_SG_Bastion = []
 for count in range(len(clientes)):
     profile = clientes[count]
     session = boto3.session.Session(profile_name=profile)
-    ec2_re = session.resource(service_name='ec2', region_name='us-east-1')
-    ec2_cli = session.client(service_name='ec2', region_name='us-east-1')
+    ec2_re = session.resource(service_name='ec2', region_name=region_name)
+    ec2_cli = session.client(service_name='ec2', region_name=region_name)
 
     instances = ec2_cli.describe_instances()
 
@@ -42,8 +44,8 @@ Existing_User_Mail = []
 for count in range(len(clientes)):
     profile = clientes[count]
     session = boto3.session.Session(profile_name=profile)
-    ec2_re = session.resource(service_name='ec2', region_name='us-east-1')
-    ec2_cli = session.client(service_name='ec2', region_name='us-east-1')
+    ec2_re = session.resource(service_name='ec2', region_name=region_name)
+    ec2_cli = session.client(service_name='ec2', region_name=region_name)
 
     instances = ec2_cli.describe_instances()
 

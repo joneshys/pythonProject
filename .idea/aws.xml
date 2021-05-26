@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="accountSettings">
-    <option name="activeProfile" value="profile:QXSSDDITAGUITEST" />
+    <option name="activeProfile" value="profile:QXSSDDSABANETAPROD" />
     <option name="activeRegion" value="us-east-1" />
     <option name="recentlyUsedProfiles">
       <list>
-        <option value="profile:QXSSDDITAGUITEST" />
-        <option value="profile:QXSSDDPEREIRATEST" />
+        <option value="profile:QXSSDDSABANETAPROD" />
+        <option value="profile:QXSSDDBRASILTEST" />
+        <option value="profile:QXIMPTOSVALLETEST" />
         <option value="profile:QXSSDDSABANETATEST" />
-        <option value="profile:QXSSDDBELLOTEST" />
-        <option value="profile:default" />
+        <option value="profile:QXSSDDITAGUITEST" />
       </list>
     </option>
     <option name="recentlyUsedRegions">
       <list>
         <option value="us-east-1" />
+        <option value="sa-east-1" />
       </list>
     </option>
   </component>

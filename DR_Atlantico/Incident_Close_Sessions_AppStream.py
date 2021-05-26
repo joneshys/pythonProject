@@ -4,7 +4,7 @@ import boto3
 import sys
 
 #Correo_Electronico = sys.argv[1]
-Correo_Electronico = 'marthasleman@gmail.com'
+Correo_Electronico = 'jbolivar@transitodelatlantico.gov.co'
 
 session = boto3.session.Session(profile_name='QXSSDDATLANTICOPROD')
 ec2_re = session.resource(service_name='ec2', region_name='us-east-1')
